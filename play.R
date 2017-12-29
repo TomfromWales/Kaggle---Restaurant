@@ -181,6 +181,43 @@ library(data.table)
         ,"hpg_genre_X_air_genre.csv"
       )
       
+    # EDA - what cross over in areas do we get?
+    #====================================
+      all_restaurants_both <- all_restaurants%>%dplyr::filter(!is.na(air_store_id)&!is.na(hpg_store_id))
+      
+      all_restaurants_both <- all_restaurants_both %>%
+        select(air_area_name,hpg_area_name)
+      
+      all_restaurants_both_DT <- as.data.table(all_restaurants_both)
+      all_restaurants_both_DT[, air_area_name_part1 := tstrsplit(air_area_name, split = " ", keep = 1)]
+      all_restaurants_both_DT[, hpg_area_name_part1 := tstrsplit(hpg_area_name, split = " ", keep = 1)]
+      all_restaurants_both_DT[, air_area_name_part2 := tstrsplit(air_area_name, split = " ", keep = 2)]
+      all_restaurants_both_DT[, hpg_area_name_part2 := tstrsplit(hpg_area_name, split = " ", keep = 2)]
+   
+      all_restaurants_both <- as.data.frame(all_restaurants_both_DT)%>%
+        mutate(
+          air_area_name_depth2 = paste(air_area_name_part1,air_area_name_part2,sep=" ")
+          ,hpg_area_name_depth2 = paste(hpg_area_name_part1,hpg_area_name_part2,sep=" ")
+        )
+        
+      write.csv(
+        table(all_restaurants_both$air_area_name,all_restaurants_both$hpg_area_name)
+        ,"air_area_X_hpg_area.csv"
+      )
+      write.csv(
+        table(all_restaurants_both$hpg_area_name,all_restaurants_both$air_area_name)
+        ,"hpg_area_X_air_area_depth2.csv"
+      )     
+      
+      write.csv(
+        table(all_restaurants_both$air_area_name_depth2,all_restaurants_both$hpg_area_name_depth2)
+        ,"air_area_X_hpg_area_depth2.csv"
+      )
+      write.csv(
+        table(all_restaurants_both$hpg_area_name_depth2,all_restaurants_both$air_area_name_depth2)
+        ,"hpg_area_X_air_area_depth2.csv"
+      )         
+      
     # Map hpg restaurant genres to the air categories
     #=================================================
       genre_mapping <- cbind.data.frame(
