@@ -237,9 +237,27 @@ library(data.table)
           "Party",
           "Seafood",
           "Spain Bar/Italian Bar",
-          "Steak/Hamburger/Curry"
+          "Steak/Hamburger/Curry",
+          "Bar/Cocktail",
+          "Bistro",
+          "Cantonese food",
+          "Chinese general",
+          "Dim Sum/Dumplings",
+          "French",
+          "Korean cuisine",
+          "Pasta/Pizza",
+          "Shabu-shabu/Sukiyaki",
+          "Shanghai food",
+          "Sichuan food",
+          "Spain/Mediterranean cuisine",
+          "Sushi",
+          "Sweets",
+          "Taiwanese/Hong Kong cuisine",
+          "Thai/Vietnamese food",
+          "Udon/Soba",
+          "Western food"
         )
-        ,air_genre = c(
+        ,air_genre_lookup = c(
           "Bar/Cocktail",
           "Bar/Cocktail",
           "Izakaya",
@@ -255,19 +273,52 @@ library(data.table)
           "Karaoke/Party",
           "Izakaya",
           "Italian/French",
+          "Western food",
+          "Bar/Cocktail",
+          "Italian/French",
+          "Chinese",
+          "Chinese",
+          "Chinese",
+          "Italian/French",
+          "Yakiniku/Korean food",
+          "Italian/French",
+          "Japanese food",
+          "Chinese",
+          "Chinese",
+          "Italian/French",
+          "Japanese food",
+          "Sweets",
+          "Chinese",
+          "Thai",
+          "Japanese food",
           "Western food"
         )
+        ,stringsAsFactors=FALSE
       )
-
       
+      all_restaurants_mapped <- all_restaurants %>%
+        dplyr::left_join(
+          genre_mapping, by = c("hpg_genre_name" = "hpg_genre")
+        )%>%
+        mutate(
+          hpg_genre_name_mapped = air_genre_lookup
+          ,genre = ifelse(!is.na(air_genre_name),air_genre_name,hpg_genre_name_mapped)
+        )%>%
+        select(-air_genre_lookup,-hpg_genre_name_mapped,-air_genre_name,-hpg_genre_name)
       
-      
-      
-      
-      
-      
-      
-      
+  # Find how much competition each air_store_id has "locally"
+  #==========================================
+    #   all_restaurants_mapped$num_local_competitors = rep(NA,nrow(all_restaurants_mapped))
+    #   all_restaurants_mapped$num_local_restaurants = rep(NA,nrow(all_restaurants_mapped))
+    #   
+    # for(i in 1:length(all_restaurants_mapped)){
+    #   genre_i = all_restaurants_mapped[i,"genre"]
+    #   
+    #   all_restaurants_mapped$num_local_competitors = nrow(all_restaurants_mapped%>%dplyr::filter(genre==genre_i)
+    #   
+    # }
+    
+    
   # Get everything together
   #==========================
     full_data <- air_visit_data %>%
