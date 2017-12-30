@@ -129,14 +129,33 @@
       
   # Find out numbers of local restaurants for each air_store_id
   #=================================================
+    local_competition = air_store_id_list
+    local_competition$num_local_competitors = rep(NA,nrow(local_competition))
+    local_competition$num_local_competitors_same_genre = rep(NA,nrow(local_competition))
+
     for(i in 1:nrow(air_store_id_list)){
+      
+      area = all_restaurants_mapped[i,"area"]
+      genre = all_restaurants_mapped[i,"genre"]
+      
       #==num_local_competitors==#
+        local_competition[i,"num_local_competitors"] = length(which(all_restaurants_mapped$area == area))-1
       
       #==num_local_competitors_same_genre===#
+        local_competition[i,"num_local_competitors_same_genre"] = length(which(all_restaurants_mapped$area == area & all_restaurants_mapped$genre == genre))-1
     }
 
-      
-      
+# Save relevant objects
+############################      
+  saveRDS(
+    object = local_competition
+    ,file = paste0(
+      project_wd
+      ,"/data/"
+      ,"local_competition"
+      ,".rds"
+    )
+  ) 
       
       
       
