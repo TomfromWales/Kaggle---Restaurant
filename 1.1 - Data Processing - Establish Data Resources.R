@@ -39,7 +39,7 @@
       for(filename in c("air_reserve","air_store_info","air_visit_data","date_info","hpg_reserve","hpg_store_info","sample_submission","store_id_relation")){
        
         saveRDS(
-          object = filename
+          object = get(filename)
           ,file = paste0(
             project_wd
             ,"/data/"
@@ -75,10 +75,10 @@
     
   # Store data in project folders
   #=========================
-    for(filename in c("air_visit_data_with_splits")){
+    for(filename in c("air_store_id_list","air_visit_data_with_splits")){
      
       saveRDS(
-        object = filename
+        object = get(filename)
         ,file = paste0(
           project_wd
           ,"/data/"

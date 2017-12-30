@@ -3,6 +3,7 @@
   air_store_id_list <- readRDS(paste0(project_wd,"/data/air_store_id_list.rds"))
   air_store_info <- readRDS(paste0(project_wd,"/data/air_store_info.rds"))
   hpg_store_info <- readRDS(paste0(project_wd,"/data/hpg_store_info.rds"))
+  store_id_relation <- readRDS(paste0(project_wd,"/data/store_id_relation.rds"))
 
 # Establish the extent of local competition
 ############################  
