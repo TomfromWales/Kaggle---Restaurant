@@ -144,6 +144,9 @@
       
       #==num_local_competitors_same_genre===#
         local_competition[i,"num_local_competitors_same_genre"] = length(which(all_restaurants_mapped$area == area & all_restaurants_mapped$genre == genre))-1
+        
+      #==genre==#
+        local_competition[i,"genre"] = genre
     }
 
 # Save relevant objects

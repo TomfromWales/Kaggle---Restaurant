@@ -73,6 +73,16 @@
       ,modelling_bucket_6 = floor(runif(nrow(air_visit_data))*6)
     )
     
+    full_rest_visit_combo <- expand.grid(
+      air_store_id = unique(c(air_visit_data_with_splits$air_store_id,air_reserve$air_store_id))
+      ,visit_date = seq(from=as.Date('2016-01-01'),to=as.Date('2017-05-31'),by=1)
+      ,stringsAsFactors = FALSE
+    )
+      
+    air_visit_data_with_splits <- full_rest_visit_combo %>%
+      dplyr::left_join(air_visit_data_with_splits,by=c("air_store_id","visit_date"))
+        
+    
   # Store data in project folders
   #=========================
     for(filename in c("air_store_id_list","air_visit_data_with_splits")){
