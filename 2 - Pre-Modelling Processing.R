@@ -4,6 +4,7 @@
 
 # Pre-Modelling Data Processing
 ############################
+  raw_modelling_data$genre <- as.factor(raw_modelling_data$genre)
   
 # Split into train and validate
 ############################
