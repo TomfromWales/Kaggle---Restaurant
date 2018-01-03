@@ -22,6 +22,9 @@
       air_visit_data <- air_visit_data %>%
         mutate(visit_date = ymd(visit_date))
       
+      date_info <- date_info %>%
+        mutate(calendar_date = ymd(calendar_date))      
+      
       air_reserve <- air_reserve %>%
         mutate(
           visit_datetime = ymd_hms(visit_datetime)
@@ -39,7 +42,7 @@
       for(filename in c("air_reserve","air_store_info","air_visit_data","date_info","hpg_reserve","hpg_store_info","sample_submission","store_id_relation")){
        
         saveRDS(
-          object = filename
+          object = get(filename)
           ,file = paste0(
             project_wd
             ,"/data/"
@@ -73,12 +76,21 @@
       ,modelling_bucket_6 = floor(runif(nrow(air_visit_data))*6)
     )
     
+    full_rest_visit_combo <- expand.grid(
+      air_store_id = unique(c(air_visit_data_with_splits$air_store_id,air_reserve$air_store_id))
+      ,visit_date = seq(from=as.Date('2016-01-01'),to=as.Date('2017-05-31'),by=1)
+      ,stringsAsFactors = FALSE
+    )
+      
+    air_visit_data_with_splits <- full_rest_visit_combo %>%
+      dplyr::left_join(air_visit_data_with_splits,by=c("air_store_id","visit_date"))    
+    
   # Store data in project folders
   #=========================
     for(filename in c("air_visit_data_with_splits")){
      
       saveRDS(
-        object = filename
+        object = get(filename)
         ,file = paste0(
           project_wd
           ,"/data/"

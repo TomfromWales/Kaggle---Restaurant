@@ -25,9 +25,17 @@
         ,"num_local_competitors_same_genre"
         ,"reserve_visitors"
         ,"reserve_visitors_day_lag_0"
+        ,"visit_date_day_of_month"
+        ,"holiday_flg"
+        # ,"holiday_flg_lag1"
+        # ,"holiday_flg_lagminus1"
+        # ,"holiday_flg_lag2"
+        # ,"holiday_flg_lagminus2"
+        # ,"holiday_flg_lag3"
+        ,"holiday_flg_lagminus3"
       )
-    ,ntrees = 250
-    ,max_depth = 3
+    ,ntrees = 500
+    ,max_depth = 5
     ,learn_rate = 0.1
     ,distribution = "poisson"
     ,sample_rate = 0.7
@@ -66,7 +74,7 @@
     ,actual = "visitors"
     ,prediction = "preds"
     ,weight = "weight"
-    ,feature = "reserve_visitors_day_lag_0"
+    ,feature = "holiday_flg_lagminus3"
   )
   
 # Weak submission
@@ -82,7 +90,7 @@
     dplyr::select(id) %>%
     dplyr::left_join(submission_prep,by="id")
   
-  write.csv(submission,"weak_gbm_with_reserve_data.csv",row.names = FALSE)
+  write.csv(submission,"weak_gbm_with_reserve_data_and_holidays3.csv",row.names = FALSE)
    
   
   
