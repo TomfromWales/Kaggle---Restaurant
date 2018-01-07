@@ -11,10 +11,10 @@
     mutate(
       reserve_date = date(reserve_datetime),
       reserve_hour = hour(reserve_datetime),
-      reserve_wday = wday(reserve_datetime, label = TRUE),
+      reserve_wday = lubridate::wday(reserve_datetime, label = TRUE),
       visit_date = date(visit_datetime),
       visit_hour = hour(visit_datetime),
-      visit_wday = wday(visit_datetime, label = TRUE),
+      visit_wday = lubridate::wday(visit_datetime, label = TRUE),
       reservation_lag_hours = time_length(visit_datetime - reserve_datetime, unit = "hour"),
       reservation_lag_days = time_length(visit_datetime - reserve_datetime, unit = "day")
     )
@@ -23,10 +23,10 @@
     mutate(
       reserve_date = date(reserve_datetime),
       reserve_hour = hour(reserve_datetime),
-      reserve_wday = wday(reserve_datetime, label = TRUE),
+      reserve_wday = lubridate::wday(reserve_datetime, label = TRUE),
       visit_date = date(visit_datetime),
       visit_hour = hour(visit_datetime),
-      visit_wday = wday(visit_datetime, label = TRUE),
+      visit_wday = lubridate::wday(visit_datetime, label = TRUE),
       reservation_lag_hours = time_length(visit_datetime - reserve_datetime, unit = "hour"),
       reservation_lag_days = time_length(visit_datetime - reserve_datetime, unit = "day")
     )%>%
