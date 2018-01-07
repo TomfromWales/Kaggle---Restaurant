@@ -10,10 +10,12 @@
   raw_modelling_data <- air_visit_data_with_splits %>%
     dplyr::left_join(local_competition,by = "air_store_id") %>%
     dplyr::left_join(reservation_data, by = c("air_store_id","visit_date"))%>%
+    # For the following merge to work Establish Data Resource needs to convert 
+    # calendar_date to date format
     dplyr::left_join(date_info%>%select(-day_of_week),by = c("visit_date" = "calendar_date"))%>%
     mutate(
-      visit_date_day_of_week = wday(visit_date)
-      ,visit_date_day_of_month = mday(visit_date)
+      visit_date_day_of_week = lubridate::wday(visit_date)
+      ,visit_date_day_of_month =lubridate::mday(visit_date)
       ,visit_date_month = lubridate::month(visit_date)
       ,holiday_flg_lag1 = dplyr::lag(holiday_flg)
       ,holiday_flg_lagminus1 = dplyr::lead(holiday_flg)
