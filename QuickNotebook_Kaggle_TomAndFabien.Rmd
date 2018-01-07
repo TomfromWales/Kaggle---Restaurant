@@ -1,0 +1,30 @@
+---
+title: "Build analysis from Tom's"
+output: html_notebook
+---
+
+The idea is to with minimal modification bring added value to submission.
+
+Most of the data gets written back to the data folder as rds:
+```{r}
+rds_list <- gsub(".rds","",list.files(path=paste0(project_wd,"/data"),pattern="rds"))
+rds_list
+```
+
+Load them all:
+```{r}
+for (filename in rds_list)
+{assign(filename,readRDS(paste0(project_wd,"/data/",filename,".rds")))}
+```
+
+Get the ids in sample submission (last ten characters are the visit date of the restaurant):
+```{r}
+sample_sub_ids <- sample_submission %>%
+                  select(id) %>%
+                  mutate(id=substr(id,1,nchar(id)-11)) %>%
+                  unique
+```
+
+There are `r nrow(sample_sub_ids)` restaurants for which we want to predict visit volume.
+
+
