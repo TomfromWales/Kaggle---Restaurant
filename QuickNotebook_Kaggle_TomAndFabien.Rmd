@@ -1,0 +1,50 @@
+---
+title: "Build analysis from Tom's"
+output: html_notebook
+---
+
+The idea is to with minimal modification bring added value to submission.
+
+Most of the data gets written back to the data folder as rds:
+```{r}
+rds_list <- gsub(".rds","",list.files(path=paste0(project_wd,"/data"),pattern="rds"))
+rds_list
+```
+
+Load them all:
+```{r}
+for (filename in rds_list)
+{assign(filename,readRDS(paste0(project_wd,"/data/",filename,".rds")))}
+```
+
+Get the ids in sample submission (last ten characters are the visit date of the restaurant):
+```{r}
+sample_sub_ids <- sample_submission %>%
+                  select(id) %>%
+                  mutate(id=substr(id,1,nchar(id)-11)) %>%
+                  unique %>%
+                  unlist
+```
+
+There are `r length(sample_sub_ids)` restaurants for which we want to predict visit volume.
+
+These are all present in the modelling data, and only 18.27% is present in the relation with hpg data.
+```{r}
+sum(sample_sub_ids %in% unique(modelling_data_train$air_store_id))/
+  length(sample_sub_ids)*100
+sum(sample_sub_ids %in% unique(store_id_relation$air_store_id))/
+  length(sample_sub_ids)*100
+```
+
+Since hpg is not available for all the restaurants in the submission. We could think of extending any added value of the ones present through location, and genre matching.
+
+There are 34 genres in hpg:
+```{r}
+unique(hpg_store_info$hpg_genre_name)
+```
+
+But only 14 in air
+```{r}
+unique(air_store_info$air_genre_name)
+```
+
