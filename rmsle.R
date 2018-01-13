@@ -1,4 +1,4 @@
-rmlse <- function(
+rmsle <- function(
   data
   ,prediction
   ,actual
@@ -14,16 +14,18 @@ rmlse <- function(
     
   # Calculate RMLSE
   #==================    
-    value <- sqrt(
-      (1/nrow(data))*
-      sum(
-        log(data[,"prediction"]+1)
-        - log(data[,"actual"]+1)
-      )^2
+    value <- Metrics::rmsle(
+      actual = data[,actual]
+      ,predicted = data[,prediction]
     )
     
   # Output
   #================== 
     return(value)
 }
+
+
+
+
+
 
