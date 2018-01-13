@@ -129,9 +129,9 @@ h2o_gbm_CV_fun <- function(
   
   hyper_parameters = list(
     ntrees = c(1000)
-    ,max_depth = c(5,10,15)
+    ,max_depth = c(10)
     ,learn_rate = c(0.1)
-    ,min_rows = c(20)
+    ,min_rows = c(50,100,200)
     ,sample_rate = c(0.8)
   )
   
@@ -154,6 +154,8 @@ h2o_gbm_CV_fun <- function(
       # ,"holiday_flg_lagminus2"
       # ,"holiday_flg_lag3"
       ,"holiday_flg_lagminus3"
+      ,"rest_max_ever_visitors"
+      ,"rest_mean_visitors_all_time"
     )
     ,k_fold_bucket_variable = "k_bucket_2"
     ,hyper_parameters = hyper_parameters

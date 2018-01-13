@@ -33,12 +33,15 @@
         # ,"holiday_flg_lagminus2"
         # ,"holiday_flg_lag3"
         ,"holiday_flg_lagminus3"
+        ,"rest_max_ever_visitors"
+        ,"rest_mean_visitors_all_time"
       )
-    ,ntrees = 500
-    ,max_depth = 5
+    ,ntrees = 1000
+    ,max_depth = 10
     ,learn_rate = 0.1
     ,distribution = "poisson"
-    ,sample_rate = 0.7
+    ,sample_rate = 0.8
+    ,min_rows = 20
     ,model_id = "test_h2o_gbm"
   )
   
@@ -74,7 +77,7 @@
     ,actual = "visitors"
     ,prediction = "preds"
     ,weight = "weight"
-    ,feature = "holiday_flg_lagminus3"
+    ,feature = "rest_max_ever_visitors"
   )
   
 # Weak submission
@@ -90,7 +93,7 @@
     dplyr::select(id) %>%
     dplyr::left_join(submission_prep,by="id")
   
-  write.csv(submission,"weak_gbm_with_reserve_data_and_holidays3.csv",row.names = FALSE)
+  write.csv(submission,"moderate_gbm_2018_01_13__22_40.csv",row.names = FALSE)
    
   
   
