@@ -128,11 +128,11 @@ h2o_gbm_CV_fun <- function(
   modelling_data_train_with_k$k_bucket_5 = ceiling(runif(nrow(modelling_data_train_with_k))*5)
   
   hyper_parameters = list(
-    ntrees = c(1000)
+    ntrees = c(500)
     ,max_depth = c(10)
     ,learn_rate = c(0.1)
-    ,min_rows = c(50,100,200)
-    ,sample_rate = c(0.8)
+    ,min_rows = c(3)
+    ,sample_rate = c(0.6)
   )
   
   results <- h2o_gbm_CV_fun(
@@ -148,14 +148,17 @@ h2o_gbm_CV_fun <- function(
       ,"reserve_visitors_day_lag_0"
       ,"visit_date_day_of_month"
       ,"holiday_flg"
-      # ,"holiday_flg_lag1"
-      # ,"holiday_flg_lagminus1"
-      # ,"holiday_flg_lag2"
-      # ,"holiday_flg_lagminus2"
-      # ,"holiday_flg_lag3"
+      ,"holiday_flg_lag1"
+      ,"holiday_flg_lagminus1"
+      ,"holiday_flg_lag2"
+      ,"holiday_flg_lagminus2"
+      ,"holiday_flg_lag3"
       ,"holiday_flg_lagminus3"
-      ,"rest_max_ever_visitors"
-      ,"rest_mean_visitors_all_time"
+      ,"MaxV_alltime"
+      ,"MeanV_alltime"
+      ,"MaxV_todate"
+      ,"MinV_todate"
+      ,"MeanV_todate"
     )
     ,k_fold_bucket_variable = "k_bucket_2"
     ,hyper_parameters = hyper_parameters

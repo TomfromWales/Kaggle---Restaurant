@@ -22,6 +22,9 @@
       air_visit_data <- air_visit_data %>%
         mutate(visit_date = ymd(visit_date))
       
+      date_info <- date_info %>%
+        mutate(calendar_date = ymd(calendar_date))        
+      
       air_reserve <- air_reserve %>%
         mutate(
           visit_datetime = ymd_hms(visit_datetime)
