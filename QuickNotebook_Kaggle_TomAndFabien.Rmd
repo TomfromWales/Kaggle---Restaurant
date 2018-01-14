@@ -48,3 +48,48 @@ But only 14 in air
 unique(air_store_info$air_genre_name)
 ```
 
+Let's check if some genres are more popular at some periods of the year
+```{r}
+GenreDateVolumes <- air_visit_data %>%
+  left_join(air_store_info,by=c("air_store_id")) %>%
+  select(air_genre_name,visit_date,visitors) %>%
+  mutate(visit_dt=lubridate::month(visit_date,label=T)) %>%
+  group_by(visit_dt,air_genre_name) %>%
+  summarise(Visits=sum(visitors))
+
+```
+
+Japanese food and bars seem to experience a drop during the last 6 months of the year, that italian/french cuisine do not seem to experience. Okonomiyaki and so tend to increase during that period.
+```{r}
+library(plotly)
+p<- GenreDateVolumes %>%
+  #group_by(visit_month) %>%
+  #summarise(Visits=sum(Visits)) %>%
+  #filter(Visits<50000, Visits>1000) %>%
+ggplot(aes(visit_dt,Visits,col=air_genre_name)) +
+  geom_point() +
+  labs(y="Visits",x = "Date")
+p <- ggplotly(p)
+p
+```
+
+```{r}
+#library(ggmap)
+#Japan <- get_map("Japan",zoom=5)
+library(leaflet)
+```
+
+```{r}
+m <- leaflet()
+
+store_points <- air_store_info %>%
+  select(latitude,longitude)
+
+#p <- ggmap(Japan)
+m <- addTiles(m)
+m <- addMarkers(m, lng=store_points$longitude[1],lat=store_points$latitude[1])
+#p
+m
+
+```
+
